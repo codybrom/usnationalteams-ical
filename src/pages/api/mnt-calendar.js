@@ -29,15 +29,17 @@ export default async (req, res) => {
       .replace('USA', 'USMNT')
       .replace('United States', 'USMNT');
 
-      const timeParts = match.time.split(':');
-      const startDate = new Date(match.date);
-      startDate.setUTCHours(parseInt(timeParts[0]), parseInt(timeParts[1]));
+      const isAllDay = match.time.toLowerCase() === 'tbd';
 
-      if (match.time.toLowerCase() === 'tbd') {
-        const endDate = setDate(startDate.getDate() + 1);
-        endDate.setUTCHours(startDate.getUTCHours() + 2); // Assuming 120 minutes per match
+      const startDate = new Date(match.date);
+      const endDate = new Date(match.date);
+      
+      if (isAllDay) {
+        startDate.setUTCHours(0, 0, 0);
+        endDate.setUTCHours(23, 59, 59);
       } else {
-        const endDate = new Date(startDate);
+        const timeParts = match.time.split(':');
+        startDate.setUTCHours(parseInt(timeParts[0]), parseInt(timeParts[1]));
         endDate.setUTCHours(startDate.getUTCHours() + 2); // Assuming 120 minutes per match
       }
 
