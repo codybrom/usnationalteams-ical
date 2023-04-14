@@ -43,20 +43,29 @@ export default async (req, res) => {
         endDate.setUTCHours(startDate.getUTCHours() + 2); // Assuming 120 minutes per match
       }
 
-    // Add competition details to the description, if available
+    // Add competition details and broadcaster names to the description, if available
     const competition = match.competition
       ? `Competition: ${match.competition.name}\n`
       : '';
+    const broadcasterNames = match.broadcastLinks
+      ? match.broadcastLinks.map(b => b.imageAltText).join(', ')
+      : 'TBD';
+    const broadcasterLabel = match.broadcastLinks && match.broadcastLinks.length === 1
+      ? 'Broadcaster'
+      : 'Broadcasters';
+    const description = `${competition}${broadcasterLabel}: ${broadcasterNames}`;
 
-    const description = competition;
+    const location = match.venue && match.venue.name && match.venue.city && match.venue.country && match.venue.country.name
+  ? `${match.venue.name}, ${match.venue.city}, ${match.venue.country.name}`
+  : 'TBD';
 
     calendar.createEvent({
       start: startDate,
       end: endDate,
       summary: summary,
       description: description,
-      location: `${match.venue.name}, ${match.venue.city}, ${match.venue.country.name}`,
-      url: `https://www.ussoccer.com`, // No match-specific URL available in the JSON
+      location: location,
+      url: `https://www.ussoccer.com${match.matchFeedUrl}`,
       allDay: isAllDay,
     });
   });
