@@ -29,18 +29,17 @@ export default async (req, res) => {
       .replace('USA', 'USMNT')
       .replace('United States', 'USMNT');
 
-    const startDate = new Date(match.date);
-    const endDate = new Date(startDate);
-    endDate.setDate(startDate.getDate() + 1); // Set the end date to the next day for all-day events
-
-    // Check if the time is TBD
-    const isAllDay = match.time.toLowerCase() === 'tbd';
-
-    if (!isAllDay) {
       const timeParts = match.time.split(':');
+      const startDate = new Date(match.date);
       startDate.setUTCHours(parseInt(timeParts[0]), parseInt(timeParts[1]));
-      endDate.setUTCHours(startDate.getUTCHours() + 2); // Assuming 120 minutes per match
-    }
+
+      if (match.time.toLowerCase() === 'tbd') {
+        const endDate = setDate(startDate.getDate() + 1);
+        endDate.setUTCHours(startDate.getUTCHours() + 2); // Assuming 120 minutes per match
+      } else {
+        const endDate = new Date(startDate);
+        endDate.setUTCHours(startDate.getUTCHours() + 2); // Assuming 120 minutes per match
+      }
 
     // Add competition details to the description, if available
     const competition = match.competition
