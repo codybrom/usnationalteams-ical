@@ -5,16 +5,16 @@ const baseUrl = process.env.VERCEL_URL;
 export default function Home() {
   const calendarUrls = {
     apple: {
-      mnt: 'webcal://example.com/api/mnt-calendar',
-      wnt: 'webcal://example.com/api/wnt-calendar',
+      mnt: `webcal://${baseUrl}/api/mnt-calendar`,
+      wnt: `webcal://${baseUrl}/api/wnt-calendar`,
     },
     google: {
-      mnt: 'https://calendar.google.com/calendar/u/0/r/settings/addbyurl?url=https%3A%2F%2Fexample.com%2Fapi%2Fmnt-calendar',
-      wnt: 'https://calendar.google.com/calendar/u/0/r/settings/addbyurl?url=https%3A%2F%2Fexample.com%2Fapi%2Fwnt-calendar',
+      mnt: `https://calendar.google.com/calendar/u/0/r/settings/addbyurl?url=https%3A%2F%2F${baseUrl}%2Fapi%2Fmnt-calendar`,
+      wnt: `https://calendar.google.com/calendar/u/0/r/settings/addbyurl?url=https%3A%2F%2F${baseUrl}%2Fapi%2Fwnt-calendar`,
     },
     outlook: {
-      mnt: 'https://outlook.live.com/owa/?path=/calendar/view/Month&tzone=UTC&import=https%3A%2F%2Fexample.com%2Fapi%2Fmnt-calendar',
-      wnt: 'https://outlook.live.com/owa/?path=/calendar/view/Month&tzone=UTC&import=https%3A%2F%2Fexample.com%2Fapi%2Fwnt-calendar',
+      mnt: `https://outlook.live.com/owa/?path=/calendar/view/Month&tzone=UTC&import=https%3A%2F%2F${baseUrl}%2Fapi%2Fmnt-calendar`,
+      wnt: `https://outlook.live.com/owa/?path=/calendar/view/Month&tzone=UTC&import=https%3A%2F%2F${baseUrl}%2Fapi%2Fwnt-calendar`,
     },
   };
 
