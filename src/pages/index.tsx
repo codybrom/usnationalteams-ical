@@ -1,4 +1,4 @@
-import {faApple, faAndroid} from '@fortawesome/free-brands-svg-icons';
+import {faApple, faGoogle} from '@fortawesome/free-brands-svg-icons';
 import {faCopy} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import Head from 'next/head';
@@ -15,9 +15,9 @@ export default function Home() {
       mnt: `webcal://${baseUrl}/api/mnt-calendar`,
       wnt: `webcal://${baseUrl}/api/wnt-calendar`,
     },
-    android: {
-      mnt: `intent://${baseUrl}/pi/mnt-calendar#Intent;type=text/calendar;action=android.intent.action.VIEW;end`,
-      wnt: `intent://${baseUrl}/api/wnt-calendar#Intent;type=text/calendar;action=android.intent.action.VIEW;end`,
+    google: {
+      mnt: `https://calendar.google.com/calendar/r?cid=webcal://${baseUrl}/api/mnt-calendar`,
+      wnt: `https://calendar.google.com/calendar/r?cid=webcal://${baseUrl}/api/wnt-calendar`,
     },
   };
 
@@ -61,11 +61,11 @@ export default function Home() {
                   <span>iOS / Mac Calendar</span>
                 </a>
                 <a
-                  href={calendarUrls.android.mnt}
+                  href={calendarUrls.google.mnt}
                   className="bg-blue text-white py-2 px-4 rounded hover:bg-opacity-80 flex items-center space-x-1"
                 >
-                  <FontAwesomeIcon icon={faAndroid} className="w-4 h-4" />
-                  <span>Android</span>
+                  <FontAwesomeIcon icon={faGoogle} className="w-4 h-4" />
+                  <span>Google Calendar</span>
                 </a>
               </div>
             </div>
@@ -83,11 +83,11 @@ export default function Home() {
                   <span>iOS / Mac Calendar</span>
                 </a>
                 <a
-                  href={calendarUrls.android.wnt}
+                  href={calendarUrls.google.wnt}
                   className="bg-red text-white py-2 px-4 rounded hover:bg-opacity-80 flex items-center space-x-1"
                 >
-                  <FontAwesomeIcon icon={faAndroid} className="w-4 h-4" />
-                  <span>Android</span>
+                  <FontAwesomeIcon icon={faGoogle} className="w-4 h-4" />
+                  <span>Google Calendar</span>
                 </a>
               </div>
             </div>
