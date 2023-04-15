@@ -38,7 +38,7 @@ export default function Home() {
       </Head>
 
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-blue-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm background-opacity-50 sm:rounded-3xl"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-red-400 to-blue-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm background-opacity-50 sm:rounded-3xl"></div>
         <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
           <h1 className="text-4xl font-bold text-blue mb-6 text-center">
             US Soccer Calendar Subscriptions
@@ -71,7 +71,7 @@ export default function Home() {
             </div>
 
             <div>
-              <h2 className="text-2xl font-semibold text-blue mb-2">
+              <h2 className="text-2xl font-semibold text-red mb-2">
                 USWNT (Women's National Team)
               </h2>
               <div className="flex space-x-2">
@@ -151,6 +151,10 @@ export default function Home() {
               </li>
             </ol>
           </div>
+
+          <footer className="mt-5 text-center">
+            <a href="http://mstdn.social/@codybrom">Made by Cody</a>
+          </footer>
         </div>
       </div>
       <ToastContainer />
