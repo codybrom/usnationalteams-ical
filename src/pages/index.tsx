@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-const baseUrl = process.env.VERCEL_URL;
+const baseUrl = process.env.baseURL;
 
 export default function Home() {
   const calendarUrls = {
