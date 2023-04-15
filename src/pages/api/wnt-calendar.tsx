@@ -1,22 +1,24 @@
 import ical from 'ical-generator';
+import {NextApiRequest, NextApiResponse} from 'next';
 import fetch from 'node-fetch';
 
-const matchesUrl = 'https://www.ussoccer.com/api/matches/upcoming/contestant/9vh2u1p4ppm597tjfahst2m3n';
+const matchesUrl =
+  'https://www.ussoccer.com/api/matches/upcoming/contestant/e70zl10x0ayu7y10ry0wi465a';
 
-export default async (req, res) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   // Fetch the matches data from the provided URL
   const response = await fetch(matchesUrl);
-  const matches = await response.json();
+  const matches = (await response.json()) as any[];
 
   // Create a new iCal calendar
   const calendar = ical({
-    name: 'US Men\'s Soccer Team'
+    name: "US Women's Soccer Team",
   });
 
   // Loop through the matches and add them to the calendar
-  matches.forEach(match => {
-    const homeTeam = match.contestants.find(team => team.position === 'home');
-    const awayTeam = match.contestants.find(team => team.position === 'away');
+  matches.forEach((match: any) => {
+    const homeTeam = match.contestants.find((team: any) => team.position === 'home');
+    const awayTeam = match.contestants.find((team: any) => team.position === 'away');
 
     if (!homeTeam || !awayTeam) {
       console.warn('Skipping match with missing team information:', match);
@@ -26,10 +28,10 @@ export default async (req, res) => {
     const homeTeamName = homeTeam.name || homeTeam.code;
     const awayTeamName = awayTeam.name || awayTeam.code;
 
-    // Replace "USA" and "United States" with "USMNT" in the summary
+    // Replace "USA" and "United States" with "USWNT" in the summary
     const summary = `${homeTeamName} vs ${awayTeamName}`
-      .replace('USA', 'USMNT')
-      .replace('United States', 'USMNT');
+      .replace('USA', 'USWNT')
+      .replace('United States', 'USWNT');
 
     const isAllDay = match.time.toLowerCase() === 'tbd';
 
@@ -46,20 +48,22 @@ export default async (req, res) => {
     }
 
     // Add competition details and broadcaster names to the description, if available
-    const competition = match.competition ?
-      `Competition: ${match.competition.name}\n` :
-      '';
-    const broadcasterNames = match.broadcastLinks ?
-      match.broadcastLinks.map(b => b.imageAltText).join(', ') :
-      'TBD';
-    const broadcasterLabel = match.broadcastLinks && match.broadcastLinks.length === 1 ?
-      'Broadcaster' :
-      'Broadcasters';
+    const competition = match.competition ? `Competition: ${match.competition.name}\n` : '';
+    const broadcasterNames = match.broadcastLinks
+      ? match.broadcastLinks.map((b: any) => b.imageAltText).join(', ')
+      : 'TBD';
+    const broadcasterLabel =
+      match.broadcastLinks && match.broadcastLinks.length === 1 ? 'Broadcaster' : 'Broadcasters';
     const description = `${competition}${broadcasterLabel}: ${broadcasterNames}`;
 
-    const location = match.venue && match.venue.name && match.venue.city && match.venue.country && match.venue.country.name ?
-      `${match.venue.name}, ${match.venue.city}, ${match.venue.country.name}` :
-      'TBD';
+    const location =
+      match.venue &&
+      match.venue.name &&
+      match.venue.city &&
+      match.venue.country &&
+      match.venue.country.name
+        ? `${match.venue.name}, ${match.venue.city}, ${match.venue.country.name}`
+        : 'TBD';
 
     calendar.createEvent({
       start: startDate,

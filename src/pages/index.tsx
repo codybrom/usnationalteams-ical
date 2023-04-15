@@ -1,124 +1,101 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
+import Head from 'next/head';
 
-const inter = Inter({ subsets: ['latin'] })
+const baseUrl = process.env.VERCEL_URL;
 
 export default function Home() {
+  const calendarUrls = {
+    apple: {
+      mnt: 'webcal://example.com/api/mnt-calendar',
+      wnt: 'webcal://example.com/api/wnt-calendar',
+    },
+    google: {
+      mnt: 'https://calendar.google.com/calendar/u/0/r/settings/addbyurl?url=https%3A%2F%2Fexample.com%2Fapi%2Fmnt-calendar',
+      wnt: 'https://calendar.google.com/calendar/u/0/r/settings/addbyurl?url=https%3A%2F%2Fexample.com%2Fapi%2Fwnt-calendar',
+    },
+    outlook: {
+      mnt: 'https://outlook.live.com/owa/?path=/calendar/view/Month&tzone=UTC&import=https%3A%2F%2Fexample.com%2Fapi%2Fmnt-calendar',
+      wnt: 'https://outlook.live.com/owa/?path=/calendar/view/Month&tzone=UTC&import=https%3A%2F%2Fexample.com%2Fapi%2Fwnt-calendar',
+    },
+  };
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/pages/index.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:.py-12">
+      <Head>
+        <title>US Soccer Calendar Subscriptions</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <div className="relative py-3 sm:max-w-xl sm:mx-auto">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-blue-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm background-opacity-50 sm:rounded-3xl"></div>
+        <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
+          <h1 className="text-4xl font-bold text-blue mb-6 text-center">
+            US Soccer Calendar Subscriptions
+          </h1>
+          <p className="mb-4 text-gray-600">
+            Stay up-to-date with the USMNT and USWNT soccer schedules! Subscribe to our ICS feeds
+            and never miss a match again.
+          </p>
+
+          <div className="flex flex-col space-y-4">
+            <div>
+              <h2 className="text-2xl font-semibold text-blue mb-2">USMNT (Men's National Team)</h2>
+              <div className="flex space-x-2">
+                <a
+                  href={calendarUrls.apple.mnt}
+                  className="bg-blue text-white py-2 px-4 rounded hover:bg-opacity-80"
+                >
+                  Apple Calendar
+                </a>
+                <a
+                  href={calendarUrls.google.mnt}
+                  className="bg-blue text-white py-2 px-4 rounded hover:bg-opacity-80"
+                >
+                  Google Calendar
+                </a>
+                <a
+                  href={calendarUrls.outlook.mnt}
+                  className="bg-blue text-white py-2 px-4 rounded hover:bg-opacity-80"
+                >
+                  Outlook
+                </a>
+              </div>
+            </div>
+
+            <div>
+              <h2 className="text-2xl font-semibold text-blue mb-2">
+                USWNT (Women's National Team)
+              </h2>
+              <div className="flex space-x-2">
+                <a
+                  href={calendarUrls.apple.wnt}
+                  className="bg-red text-white py-2 px-4 rounded hover:bg-opacity-80"
+                >
+                  Apple Calendar
+                </a>
+                <a
+                  href={calendarUrls.google.wnt}
+                  className="bg-red text-white py-2 px-4 rounded hover:bg-opacity-80"
+                >
+                  Google Calendar
+                </a>
+                <a
+                  href={calendarUrls.outlook.wnt}
+                  className="bg-red text-white py-2 px-4 rounded hover:bg-opacity-80"
+                >
+                  Outlook
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6">
+            <p className="text-sm text-gray-600">
+              *To add these ICS feeds to your preferred calendar platform, simply click the desired
+              button and follow your platform's instructions.
+            </p>
+          </div>
         </div>
       </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+    </div>
+  );
 }

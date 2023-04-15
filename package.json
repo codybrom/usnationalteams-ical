@@ -7,13 +7,15 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prettier-format": "prettier --config .prettierrc 'pages/**/*.ts*' --write"
+    "prettier-format": "prettier --config .prettierrc 'src/**/*.ts*' --write"
   },
   "dependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.1.1",
     "@types/node": "18.15.11",
     "@types/react": "18.0.35",
     "@types/react-dom": "18.0.11",
     "autoprefixer": "10.4.14",
+    "daisyui": "^2.51.5",
     "date-fns": "^2.29.3",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
@@ -27,7 +29,6 @@
     "typescript": "5.0.4"
   },
   "devDependencies": {
-    "@trivago/prettier-plugin-sort-imports": "trivago/prettier-plugin-sort-imports",
     "prettier": "^2.8.7",
     "prettier-airbnb-config": "^1.0.0"
   }
