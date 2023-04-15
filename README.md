@@ -3,6 +3,8 @@ US National Teams Calendar Subscriptions
 
 This is a simple Next.js web application that allows users to subscribe to the US Men's National Team (USMNT) and US Women's National Team (USWNT) soccer schedules provided by the unofficial US Soccer API on various calendar platforms, including Apple Calendar, Google Calendar, and Outlook.
 
+[https://usnationalteams-ical.vercel.app](Visit this page to try it yourself)
+
 Getting Started
 ---------------
 
