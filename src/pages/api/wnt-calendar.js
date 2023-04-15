@@ -13,11 +13,35 @@ export default async (req, res) => {
 
   // Loop through the matches and add them to the calendar
   matches.forEach(match => {
-    const startDate = new Date(match.dateTime);
-    const endDate = new Date(startDate.getTime() + 120 * 60 * 1000); // Assuming 120 minutes per match
+    const homeTeam = match.contestants.find(team => team.position === 'home');
+    const awayTeam = match.contestants.find(team => team.position === 'away');
+  
+    if (!homeTeam || !awayTeam) {
+      console.warn('Skipping match with missing team information:', match);
+      return;
+    }
+  
+    const homeTeamName = homeTeam.name || homeTeam.code;
+    const awayTeamName = awayTeam.name || awayTeam.code;
+  
+    // Replace "USA" and "United States" with "USMNT" in the summary
+    const summary = `${homeTeamName} vs ${awayTeamName}`
+      .replace('USA', 'USWNT')
+      .replace('United States', 'USWNT');
 
-    // Replace "United States" with "USWNT" in the summary
-    const summary = match.description.replace('United States', 'USWNT');
+      const isAllDay = match.time.toLowerCase() === 'tbd';
+
+      const startDate = new Date(match.date);
+      const endDate = new Date(match.date);
+      
+      if (isAllDay) {
+        startDate.setUTCHours(0, 0, 0);
+        endDate.setUTCHours(23, 59, 59);
+      } else {
+        const timeParts = match.time.split(':');
+        startDate.setUTCHours(parseInt(timeParts[0]), parseInt(timeParts[1]));
+        endDate.setUTCHours(startDate.getUTCHours() + 2); // Assuming 120 minutes per match
+      }
 
     // Add competition details and broadcaster names to the description, if available
     const competition = match.competition
@@ -31,13 +55,18 @@ export default async (req, res) => {
       : 'Broadcasters';
     const description = `${competition}${broadcasterLabel}: ${broadcasterNames}`;
 
+    const location = match.venue && match.venue.name && match.venue.city && match.venue.country && match.venue.country.name
+  ? `${match.venue.name}, ${match.venue.city}, ${match.venue.country.name}`
+  : 'TBD';
+
     calendar.createEvent({
       start: startDate,
       end: endDate,
       summary: summary,
       description: description,
-      location: `${match.venue.longName}, ${match.venue.location}, ${match.venue.country}`,
-      url: `https://www.ussoccer.com${match.matchFeedUrl}`, // No label for the link
+      location: location,
+      url: `https://www.ussoccer.com${match.matchFeedUrl}`,
+      allDay: isAllDay,
     });
   });
 
