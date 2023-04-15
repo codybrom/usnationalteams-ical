@@ -153,7 +153,7 @@ export default function Home() {
           </div>
 
           <footer className="mt-5 text-center">
-            <a href="http://mstdn.social/@codybrom">Made by Cody</a>
+            <a href="https://mstdn.social/@codybrom">Made by Cody</a>
           </footer>
         </div>
       </div>
