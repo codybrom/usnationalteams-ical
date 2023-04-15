@@ -9,8 +9,8 @@ export default function Home() {
       wnt: `webcal://${baseUrl}/api/wnt-calendar`,
     },
     google: {
-      mnt: `https://calendar.google.com/calendar/u/0/r/settings/addbyurl?url=https%3A%2F%2F${baseUrl}%2Fapi%2Fmnt-calendar`,
-      wnt: `https://calendar.google.com/calendar/u/0/r/settings/addbyurl?url=https%3A%2F%2F${baseUrl}%2Fapi%2Fwnt-calendar`,
+      mnt: `https://www.google.com/calendar/render?cid=https%3A%2F%2F${baseUrl}%2Fapi%2Fmnt-calendar`,
+      wnt: `https://www.google.com/calendar/render?cid=https%3A%2F%2F${baseUrl}%2Fapi%2Fwnt-calendar`,
     },
     outlook: {
       mnt: `https://outlook.live.com/owa/?path=/calendar/view/Month&tzone=UTC&import=https%3A%2F%2F${baseUrl}%2Fapi%2Fmnt-calendar`,
