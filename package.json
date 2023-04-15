@@ -10,11 +10,16 @@
     "prettier-format": "prettier --config .prettierrc 'src/**/*.ts*' --write"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.4.0",
+    "@fortawesome/free-brands-svg-icons": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@trivago/prettier-plugin-sort-imports": "^4.1.1",
     "@types/node": "18.15.11",
     "@types/react": "18.0.35",
     "@types/react-dom": "18.0.11",
     "autoprefixer": "10.4.14",
+    "babel-plugin-macros": "^3.1.0",
     "daisyui": "^2.51.5",
     "date-fns": "^2.29.3",
     "eslint": "8.38.0",
@@ -25,6 +30,7 @@
     "postcss": "8.4.21",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-toastify": "^9.1.2",
     "tailwindcss": "3.3.1",
     "typescript": "5.0.4"
   },

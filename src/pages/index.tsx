@@ -1,6 +1,13 @@
+import {faApple, faAndroid} from '@fortawesome/free-brands-svg-icons';
+import {faCopy} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import Head from 'next/head';
+import React, {useState} from 'react';
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const baseUrl = process.env.baseURL;
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+console.log('baseUrl', baseUrl);
 
 export default function Home() {
   const calendarUrls = {
@@ -8,14 +15,19 @@ export default function Home() {
       mnt: `webcal://${baseUrl}/api/mnt-calendar`,
       wnt: `webcal://${baseUrl}/api/wnt-calendar`,
     },
-    google: {
-      mnt: `https://www.google.com/calendar/render?cid=https%3A%2F%2F${baseUrl}%2Fapi%2Fmnt-calendar`,
-      wnt: `https://www.google.com/calendar/render?cid=https%3A%2F%2F${baseUrl}%2Fapi%2Fwnt-calendar`,
+    android: {
+      mnt: `intent://${baseUrl}/pi/mnt-calendar#Intent;type=text/calendar;action=android.intent.action.VIEW;end`,
+      wnt: `intent://${baseUrl}/api/wnt-calendar#Intent;type=text/calendar;action=android.intent.action.VIEW;end`,
     },
-    outlook: {
-      mnt: `https://outlook.live.com/owa/?path=/calendar/view/Month&tzone=UTC&import=https%3A%2F%2F${baseUrl}%2Fapi%2Fmnt-calendar`,
-      wnt: `https://outlook.live.com/owa/?path=/calendar/view/Month&tzone=UTC&import=https%3A%2F%2F${baseUrl}%2Fapi%2Fwnt-calendar`,
-    },
+  };
+
+  const handleCopyToClipboard = async (inputValue: string) => {
+    try {
+      await navigator.clipboard.writeText(inputValue);
+      toast.success('Copied to clipboard');
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
   };
 
   return (
@@ -32,8 +44,9 @@ export default function Home() {
             US Soccer Calendar Subscriptions
           </h1>
           <p className="mb-4 text-gray-600">
-            Stay up-to-date with the USMNT and USWNT soccer schedules! Subscribe to our ICS feeds
-            and never miss a match again.
+            Stay up-to-date with the USMNT and USWNT soccer schedules. This site uses an unofficial
+            USSoccer.com API to fetch the upcoming matches. All times will be converted to your
+            local time by your calendar application.
           </p>
 
           <div className="flex flex-col space-y-4">
@@ -42,21 +55,17 @@ export default function Home() {
               <div className="flex space-x-2">
                 <a
                   href={calendarUrls.apple.mnt}
-                  className="bg-blue text-white py-2 px-4 rounded hover:bg-opacity-80"
+                  className="bg-blue text-white py-2 px-4 rounded hover:bg-opacity-80 flex items-center space-x-1"
                 >
-                  Apple Calendar
+                  <FontAwesomeIcon icon={faApple} className="w-4 h-4" />
+                  <span>iOS / Mac Calendar</span>
                 </a>
                 <a
-                  href={calendarUrls.google.mnt}
-                  className="bg-blue text-white py-2 px-4 rounded hover:bg-opacity-80"
+                  href={calendarUrls.android.mnt}
+                  className="bg-blue text-white py-2 px-4 rounded hover:bg-opacity-80 flex items-center space-x-1"
                 >
-                  Google Calendar
-                </a>
-                <a
-                  href={calendarUrls.outlook.mnt}
-                  className="bg-blue text-white py-2 px-4 rounded hover:bg-opacity-80"
-                >
-                  Outlook
+                  <FontAwesomeIcon icon={faAndroid} className="w-4 h-4" />
+                  <span>Android</span>
                 </a>
               </div>
             </div>
@@ -68,34 +77,83 @@ export default function Home() {
               <div className="flex space-x-2">
                 <a
                   href={calendarUrls.apple.wnt}
-                  className="bg-red text-white py-2 px-4 rounded hover:bg-opacity-80"
+                  className="bg-red text-white py-2 px-4 rounded hover:bg-opacity-80 flex items-center space-x-1"
                 >
-                  Apple Calendar
+                  <FontAwesomeIcon icon={faApple} className="w-4 h-4" />
+                  <span>iOS / Mac Calendar</span>
                 </a>
                 <a
-                  href={calendarUrls.google.wnt}
-                  className="bg-red text-white py-2 px-4 rounded hover:bg-opacity-80"
+                  href={calendarUrls.android.wnt}
+                  className="bg-red text-white py-2 px-4 rounded hover:bg-opacity-80 flex items-center space-x-1"
                 >
-                  Google Calendar
-                </a>
-                <a
-                  href={calendarUrls.outlook.wnt}
-                  className="bg-red text-white py-2 px-4 rounded hover:bg-opacity-80"
-                >
-                  Outlook
+                  <FontAwesomeIcon icon={faAndroid} className="w-4 h-4" />
+                  <span>Android</span>
                 </a>
               </div>
             </div>
           </div>
 
           <div className="mt-6">
-            <p className="text-sm text-gray-600">
-              *To add these ICS feeds to your preferred calendar platform, simply click the desired
-              button and follow your platform's instructions.
+            <h3 className="text-xl font-semibold text-blue mb-2 leading-loose">
+              Manual Subscription Instructions
+            </h3>
+            <p className="text-sm text-gray-600 mt-2">
+              If the buttons above don't work for your device or calendar application, you can
+              follow these manual steps to subscribe to the calendars:
             </p>
+            <ol className="list-decimal list-inside text-sm text-gray-600 mt-1">
+              <li>Copy the ICS feed URL for the desired calendar:</li>
+
+              <div className="input-group my-2 w-full flex">
+                <span className="bg-blue text-white">USMNT</span>
+                <input
+                  id="usmnt-url"
+                  type="text"
+                  value={calendarUrls.apple.mnt}
+                  readOnly
+                  className="input input-bordered bg-gray-100 flex-grow"
+                />
+                <button
+                  className="btn bg-blue text-white border-0"
+                  onClick={() => handleCopyToClipboard(calendarUrls.apple.mnt)}
+                >
+                  <FontAwesomeIcon icon={faCopy} className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="input-group my-2 w-full flex">
+                <span className="bg-red text-white">USWNT</span>
+                <input
+                  id="usmnt-url"
+                  type="text"
+                  value={calendarUrls.apple.wnt}
+                  readOnly
+                  className="input input-bordered bg-gray-100 flex-grow"
+                />
+                <button
+                  className="btn bg-red text-white border-0"
+                  onClick={() => handleCopyToClipboard(calendarUrls.apple.mnt)}
+                >
+                  <FontAwesomeIcon icon={faCopy} className="w-4 h-4" />
+                </button>
+              </div>
+
+              <li className="mt-2">Open your preferred calendar application.</li>
+              <li className="mt-2">
+                Find the option to "Add Calendar," "Subscribe to Calendar," or similar.
+              </li>
+              <li className="mt-2">
+                Paste the ICS feed URL you copied earlier into the appropriate field.
+              </li>
+              <li className="mt-2">
+                Follow your calendar application's instructions to complete the subscription
+                process.
+              </li>
+            </ol>
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }
